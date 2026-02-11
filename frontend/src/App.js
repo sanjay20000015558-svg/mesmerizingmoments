@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaWhatsapp, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope, FaTimes } from 'react-icons/fa';
-import { MdEvent, MdCardGiftcard, MdCorporateFare, MdCake, MdFormatColorFill, MdLightbulb } from 'react-icons/md';
+import { FaWhatsapp, FaInstagram, FaTimes } from 'react-icons/fa';
 import './App.css';
 
 // Preloader Component
