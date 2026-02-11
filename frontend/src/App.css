@@ -482,6 +482,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+  align-items: start;
 }
 
 .service-card {
@@ -503,7 +504,7 @@
   left: 0;
   right: 0;
   height: 5px;
-  background: var(--accent-color);
+  background: var(--service-color, var(--primary));
   transform: scaleX(0);
   transition: transform 0.4s ease;
 }
@@ -514,37 +515,75 @@
 
 .service-card:hover {
   transform: translateY(-10px);
-  border-color: var(--accent-color);
-  box-shadow: var(--shadow-lg);
+  border-color: var(--service-color, var(--primary));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.service-icon {
-  width: 80px;
-  height: 80px;
+.service-icon-wrapper {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 25px;
-  font-size: 2rem;
-  color: white;
+  font-size: 2.5rem;
   transition: transform 0.4s ease;
 }
 
-.service-card:hover .service-icon {
-  transform: scale(1.1) rotate(10deg);
+.service-card:hover .service-icon-wrapper {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .service-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 15px;
   color: var(--text-primary);
+  font-weight: 700;
 }
 
 .service-card p {
   color: var(--text-secondary);
   margin-bottom: 20px;
   line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.service-tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.service-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--service-color, var(--primary));
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.service-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 .service-link {
@@ -908,6 +947,21 @@
   align-items: start;
 }
 
+.contact-info {
+  text-align: left;
+}
+
+.contact-info h3 {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.contact-info > p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+}
+
 .contact-logo {
   margin-bottom: 25px;
 }
@@ -1013,12 +1067,43 @@
   padding: 45px;
   border-radius: 25px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form button[type="submit"] {
+  width: 100%;
+  max-width: 300px;
+  margin: 10px auto 0;
+  display: block;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
+  width: 100%;
+}
+
+.contact-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  padding: 15px 20px;
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  background: white;
+  box-sizing: border-box;
 }
 
 .form-row {
@@ -1355,7 +1440,30 @@
     gap: 40px;
   }
   
-  .services-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .service-card {
+    padding: 30px 25px;
+  }
+  
+  .service-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+  
+  .service-tags {
+    gap: 6px;
+  }
+  
+  .service-tag {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+  }
+  
   .features-grid,
   .testimonials-grid,
   .why-us-features {
@@ -1364,6 +1472,7 @@
   
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   
   .footer-content {
@@ -1377,6 +1486,19 @@
   
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .stat-card {
+    padding: 25px 15px;
+  }
+  
+  .stat-card .stat-number {
+    font-size: 2rem;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
   }
 }
 

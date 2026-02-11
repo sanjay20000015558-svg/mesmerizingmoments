@@ -210,32 +210,44 @@ const ServicesSection = () => {
     { 
       icon: <FaHeart />, 
       title: 'Weddings', 
-      desc: 'Full wedding planning from engagement to reception, creating your dream celebration' 
+      desc: 'Full wedding planning from engagement to reception, creating your dream celebration',
+      color: '#FF6B6B',
+      tags: ['Ceremony', 'Reception', 'Venue']
     },
     { 
       icon: <FaCalendarAlt />, 
       title: 'Corporate Events', 
-      desc: 'Professional corporate gatherings, conferences, and team building events' 
+      desc: 'Professional corporate gatherings, conferences, and team building events',
+      color: '#4ECDC4',
+      tags: ['Conference', 'Team Building', 'Seminar']
     },
     { 
       icon: <FaStar />, 
       title: 'Birthday Parties', 
-      desc: 'Magical birthday celebrations for all ages with personalized themes' 
+      desc: 'Magical birthday celebrations for all ages with personalized themes',
+      color: '#FFD93D',
+      tags: ['Kids', 'Adults', 'Themed']
     },
     { 
       icon: <FaMusic />, 
       title: 'Engagement Parties', 
-      desc: "Romantic engagement ceremonies and parties you'll never forget" 
+      desc: "Romantic engagement ceremonies and parties you'll never forget",
+      color: '#A855F7',
+      tags: ['Ring Ceremony', 'Celebration', ' intimate']
     },
     { 
       icon: <FaCamera />, 
       title: 'Anniversaries', 
-      desc: 'Special anniversary celebrations to commemorate your milestones' 
+      desc: 'Special anniversary celebrations to commemorate your milestones',
+      color: '#EC4899',
+      tags: ['Milestone', 'Romantic', 'Dinner']
     },
     { 
       icon: <FaUtensils />, 
       title: 'Private Dinners', 
-      desc: 'Elegant private dinners and gatherings with exquisite catering' 
+      desc: 'Elegant private dinners and gatherings with exquisite catering',
+      color: '#F97316',
+      tags: ['Catering', 'Fine Dining', 'Gathering']
     }
   ];
 
@@ -248,10 +260,20 @@ const ServicesSection = () => {
         </div>
         <div className="services-grid">
           {services.map((service, index) => (
-            <div key={index} className="service-card">
-              <span className="service-icon">{service.icon}</span>
+            <div key={index} className="service-card" style={{'--service-color': service.color}}>
+              <div className="service-icon-wrapper" style={{background: `${service.color}20`, color: service.color}}>
+                <span className="service-icon">{service.icon}</span>
+              </div>
               <h3>{service.title}</h3>
               <p>{service.desc}</p>
+              <div className="service-tags">
+                {service.tags.map((tag, tagIndex) => (
+                  <span key={tagIndex} className="service-tag" style={{background: `${service.color}15`, color: service.color}}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <a href="#contact" className="service-btn">Book Now →</a>
             </div>
           ))}
         </div>
@@ -441,15 +463,15 @@ const ContactSection = () => {
               <div className="contact-item">
                 <span className="contact-icon">📍</span>
                 <div>
-                  <h4>Location</h4>
-                  <p>Your Dream Venue</p>
+                  <h4>Address</h4>
+                  <p>No:26, Ranga Nagar 1st Street,<br/>Saraswathypuram, Chromepet,<br/>Chennai-600044</p>
                 </div>
               </div>
               <div className="contact-item">
                 <span className="contact-icon">📞</span>
                 <div>
                   <h4>Phone</h4>
-                  <p>+91 XXXXXXXXXX</p>
+                  <p>+91 80728 92531<br/>+91 73972 50062</p>
                 </div>
               </div>
               <div className="contact-item">
@@ -462,81 +484,83 @@ const ContactSection = () => {
             </div>
             
             <div className="social-links">
-              <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://wa.me/919078892531" target="_blank" rel="noopener noreferrer" className="social-link">
                 <FaWhatsapp />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://www.instagram.com/mesmerizing__moments" target="_blank" rel="noopener noreferrer" className="social-link">
                 <FaInstagram />
               </a>
             </div>
           </div>
           
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-row">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
+          <div className="contact-form-container">
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-row">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-row">
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+                <select name="eventType" value={formData.eventType} onChange={handleChange} required>
+                  <option value="">Select Event Type</option>
+                  <option value="wedding">Wedding</option>
+                  <option value="corporate">Corporate Event</option>
+                  <option value="birthday">Birthday Party</option>
+                  <option value="engagement">Engagement</option>
+                  <option value="anniversary">Anniversary</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div className="form-row">
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              
+              <textarea
+                name="message"
+                placeholder="Tell us about your event..."
+                value={formData.message}
                 onChange={handleChange}
+                rows="5"
                 required
               />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            
-            <div className="form-row">
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-              <select name="eventType" value={formData.eventType} onChange={handleChange} required>
-                <option value="">Select Event Type</option>
-                <option value="wedding">Wedding</option>
-                <option value="corporate">Corporate Event</option>
-                <option value="birthday">Birthday Party</option>
-                <option value="engagement">Engagement</option>
-                <option value="anniversary">Anniversary</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            
-            <div className="form-row">
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            
-            <textarea
-              name="message"
-              placeholder="Tell us about your event..."
-              value={formData.message}
-              onChange={handleChange}
-              rows="5"
-              required
-            />
-            
-            <button type="submit" className="btn btn-primary" disabled={status === 'submitting'}>
-              {status === 'submitting' ? 'Sending...' : 'Send Message'}
-            </button>
-            
-            {status === 'success' && <p className="status-message success">Message sent successfully!</p>}
-            {status === 'error' && <p className="status-message error">Something went wrong. Please try again.</p>}
-          </form>
+              
+              <button type="submit" className="btn btn-primary" disabled={status === 'submitting'}>
+                {status === 'submitting' ? 'Sending...' : 'Send Message'}
+              </button>
+              
+              {status === 'success' && <p className="status-message success">Message sent successfully!</p>}
+              {status === 'error' && <p className="status-message error">Something went wrong. Please try again.</p>}
+            </form>
+          </div>
         </div>
       </div>
     </section>
