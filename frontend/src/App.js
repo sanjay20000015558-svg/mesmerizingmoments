@@ -225,7 +225,7 @@ const ServicesSection = () => {
     { 
       icon: <FaMusic />, 
       title: 'Engagement Parties', 
-      desc: 'Romantic engagement ceremonies and parties you'll never forget' 
+      desc: "Romantic engagement ceremonies and parties you'll never forget" 
     },
     { 
       icon: <FaCamera />, 
@@ -561,6 +561,11 @@ function App() {
       <Preloader />
       <Navbar />
       <HeroSection />
+      <AboutSection />
+      <ServicesSection />
+      <GallerySection />
+      <WhyUsSection />
+      <TestimonialsSection />
       <ContactSection />
       <Footer />
     </div>
