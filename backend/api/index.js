@@ -16,9 +16,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -31,11 +29,25 @@ app.use(express.json());
 /* ======================
    MongoDB Connection
 ====================== */
-if (!mongoose.connection.readyState) {
+mongoose.connection.on('connected', () => {
+  console.log('✅ MongoDB connected successfully');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ MongoDB connection error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ MongoDB disconnected');
+});
+
+if (process.env.MONGODB_URI) {
   mongoose
     .connect(process.env.MONGODB_URI)
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.error("MongoDB error:", err));
+    .then(() => console.log("🚀 MongoDB connected"))
+    .catch(err => console.log("MongoDB connection error:", err.message));
+} else {
+  console.log("⚠️ MONGODB_URI not set in .env file");
 }
 
 /* ======================
@@ -51,7 +63,8 @@ app.use("/api/testimonials", require("../routes/testimonials"));
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
-    message: "M² Backend running on Vercel"
+    message: "M² Backend running on Vercel",
+    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
   });
 });
 
