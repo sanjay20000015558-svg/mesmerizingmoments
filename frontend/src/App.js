@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp, FaInstagram, FaTimes } from 'react-icons/fa';
-import './App.css';
+import './App.css';  
+
 
 // Preloader Component
+const API_BASE = "http://localhost:5000/api";
 const Preloader = () => {
   const [isLoading, setIsLoading] = useState(true);
 
