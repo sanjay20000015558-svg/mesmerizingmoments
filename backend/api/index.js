@@ -53,9 +53,10 @@ if (process.env.MONGODB_URI) {
 /* ======================
    Routes
 ====================== */
-app.use("/api/contact", require("../routes/contact"));
-app.use("/api/gallery", require("../routes/gallery"));
-app.use("/api/testimonials", require("../routes/testimonials"));
+// Note: Vercel routes /api/* to this file, so we use paths without /api prefix
+app.use("/contact", require("../routes/contact"));
+app.use("/gallery", require("../routes/gallery"));
+app.use("/testimonials", require("../routes/testimonials"));
 
 /* ======================
    Health Check
