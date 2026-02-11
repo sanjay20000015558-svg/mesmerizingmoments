@@ -434,14 +434,17 @@ const ContactSection = () => {
         body: JSON.stringify(formData)
       });
       
-      if (response.ok) {
+      const data = await response.json();
+      
+      if (response.ok || data.success) {
         setStatus('success');
         setFormData({ name: '', email: '', phone: '', eventType: '', date: '', message: '' });
-        setTimeout(() => setStatus(''), 3000);
+        setTimeout(() => setStatus(''), 5000);
       } else {
         setStatus('error');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
       setStatus('error');
     }
   };

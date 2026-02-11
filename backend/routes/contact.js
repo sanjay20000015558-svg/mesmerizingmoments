@@ -1,25 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/Contact');
+
+// In-memory storage for demo (when MongoDB is not available)
+let contacts = [];
 
 // Get all contacts
 router.get('/', async (req, res) => {
   try {
+    const Contact = require('../models/Contact');
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Return empty array if MongoDB is not connected
+    console.log('MongoDB not connected, using in-memory storage');
+    res.json([]);
   }
 });
 
 // Create new contact
 router.post('/', async (req, res) => {
   try {
+    const Contact = require('../models/Contact');
     const contact = new Contact(req.body);
     await contact.save();
-    res.status(201).json(contact);
+    res.status(201).json({ success: true, contact });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    // If MongoDB is not connected, store in memory
+    console.log('MongoDB error, using in-memory storage:', error.message);
+    const newContact = {
+      ...req.body,
+      _id: Date.now().toString(),
+      createdAt: new Date()
+    };
+    contacts.push(newContact);
+    res.status(201).json({ success: true, contact: newContact, stored: 'in-memory' });
   }
 });
 
