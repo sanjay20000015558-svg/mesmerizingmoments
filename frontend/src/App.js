@@ -572,25 +572,29 @@ const ContactSection = () => {
               {status === 'success' && <p className="status-message success">Message sent successfully! We'll get back to you soon.</p>}
               {status === 'error' && (
                 <p className="status-message error">
-                  Unable to send message. Please check your connection or try again.
+                  <span className="error-icon">⚠️</span>
+                  <strong>Message failed to send</strong><br/>
+                  Please check your internet connection and try again. If the problem persists, you can also reach us directly at hello@mesmerizingmoments.in
                   <button 
                     type="button" 
                     className="retry-btn"
                     onClick={() => setStatus('')}
                   >
-                    Try Again
+                    Try Again ↻
                   </button>
                 </p>
               )}
               {status === 'timeout' && (
                 <p className="status-message error">
-                  Request timed out. Please try again.
+                  <span className="error-icon">⏱️</span>
+                  <strong>Connection timed out</strong><br/>
+                  The server is taking too long to respond. Please try again or contact us directly at hello@mesmerizingmoments.in
                   <button 
                     type="button" 
                     className="retry-btn"
                     onClick={() => setStatus('')}
                   >
-                    Try Again
+                    Try Again ↻
                   </button>
                 </p>
               )}
