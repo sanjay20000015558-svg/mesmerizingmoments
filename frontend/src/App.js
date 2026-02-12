@@ -429,7 +429,7 @@ const ContactSection = () => {
     
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout for Vercel
       
       const response = await fetch(`${API_BASE}/contact`, {
         method: 'POST',
@@ -569,9 +569,31 @@ const ContactSection = () => {
                 {status === 'submitting' ? 'Sending...' : 'Send Message'}
               </button>
               
-              {status === 'success' && <p className="status-message success">Message sent successfully!</p>}
-              {status === 'error' && <p className="status-message error">Unable to send message. Please check your connection or try again.</p>}
-              {status === 'timeout' && <p className="status-message error">Request timed out. Please try again.</p>}
+              {status === 'success' && <p className="status-message success">Message sent successfully! We'll get back to you soon.</p>}
+              {status === 'error' && (
+                <p className="status-message error">
+                  Unable to send message. Please check your connection or try again.
+                  <button 
+                    type="button" 
+                    className="retry-btn"
+                    onClick={() => setStatus('')}
+                  >
+                    Try Again
+                  </button>
+                </p>
+              )}
+              {status === 'timeout' && (
+                <p className="status-message error">
+                  Request timed out. Please try again.
+                  <button 
+                    type="button" 
+                    className="retry-btn"
+                    onClick={() => setStatus('')}
+                  >
+                    Try Again
+                  </button>
+                </p>
+              )}
             </form>
           </div>
         </div>

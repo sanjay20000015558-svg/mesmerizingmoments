@@ -1192,6 +1192,22 @@
   border: 1px solid #f5c6cb;
 }
 
+.status-message .retry-btn {
+  margin-left: 10px;
+  padding: 8px 16px;
+  background: #721c24;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.status-message .retry-btn:hover {
+  background: #5a1a1a;
+}
+
 .contact-form input,
 .contact-form select,
 .contact-form textarea {

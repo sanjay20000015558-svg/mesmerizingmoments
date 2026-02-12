@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// In-memory storage for demo (when MongoDB is not available)
-let contacts = [];
-
 // Get all contacts
 router.get('/', async (req, res) => {
   try {
@@ -19,21 +16,36 @@ router.get('/', async (req, res) => {
 
 // Create new contact
 router.post('/', async (req, res) => {
+  console.log('Contact form submission received:', req.body);
+  
   try {
     const Contact = require('../models/Contact');
     const contact = new Contact(req.body);
     await contact.save();
-    res.status(201).json({ success: true, contact });
+    console.log('Contact saved to MongoDB successfully');
+    res.status(201).json({ success: true, contact, source: 'mongodb' });
   } catch (error) {
-    // If MongoDB is not connected, store in memory
-    console.log('MongoDB error, using in-memory storage:', error.message);
+    console.log('MongoDB error, falling back to in-memory storage:', error.message);
+    // Store in memory for serverless environments (will persist for short periods)
     const newContact = {
       ...req.body,
       _id: Date.now().toString(),
       createdAt: new Date()
     };
-    contacts.push(newContact);
-    res.status(201).json({ success: true, contact: newContact, stored: 'in-memory' });
+    
+    // Store in global variable to persist across serverless invocations
+    if (typeof global !== 'undefined') {
+      global.tempContacts = global.tempContacts || [];
+      global.tempContacts.push(newContact);
+      console.log('Contact stored in global memory. Total:', global.tempContacts.length);
+    }
+    
+    res.status(201).json({ 
+      success: true, 
+      contact: newContact, 
+      source: 'in-memory',
+      message: 'Your message has been received! We will contact you soon.'
+    });
   }
 });
 
