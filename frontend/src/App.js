@@ -428,12 +428,17 @@ const ContactSection = () => {
     setStatus('submitting');
     
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await fetch(`${API_BASE}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        signal: controller.signal
       });
       
+      clearTimeout(timeoutId);
       const data = await response.json();
       
       if (response.ok || data.success) {
@@ -445,7 +450,11 @@ const ContactSection = () => {
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      setStatus('error');
+      if (error.name === 'AbortError') {
+        setStatus('timeout');
+      } else {
+        setStatus('error');
+      }
     }
   };
 
@@ -561,7 +570,8 @@ const ContactSection = () => {
               </button>
               
               {status === 'success' && <p className="status-message success">Message sent successfully!</p>}
-              {status === 'error' && <p className="status-message error">Something went wrong. Please try again.</p>}
+              {status === 'error' && <p className="status-message error">Unable to send message. Please check your connection or try again.</p>}
+              {status === 'timeout' && <p className="status-message error">Request timed out. Please try again.</p>}
             </form>
           </div>
         </div>
