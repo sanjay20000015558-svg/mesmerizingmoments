@@ -39,19 +39,36 @@ if (process.env.MONGODB_URI) {
 /* ======================
    Routes
 ====================== */
-// Note: Vercel routes /api/* to this file, so we use paths without /api prefix
-app.use("/contact", require("../routes/contact"));
-app.use("/gallery", require("../routes/gallery"));
-app.use("/testimonials", require("../routes/testimonials"));
+// Routes with /api prefix to match frontend calls
+app.use("/api/contact", require("../routes/contact"));
+app.use("/api/gallery", require("../routes/gallery"));
+app.use("/api/testimonials", require("../routes/testimonials"));
 
-/* ======================
-   Health Check
-====================== */
+// Health check route
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
     message: "M² Backend running on Vercel",
     mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected"
+  });
+});
+
+// Debug route to test API connectivity
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    status: "ok", 
+    message: "API is working",
+    timestamp: new Date().toISOString() 
+  });
+});
+
+// Catch-all for unmatched routes
+app.use((req, res) => {
+  console.log('Unhandled route:', req.method, req.url);
+  res.status(404).json({ 
+    error: 'Route not found', 
+    path: req.url,
+    method: req.method 
   });
 });
 
